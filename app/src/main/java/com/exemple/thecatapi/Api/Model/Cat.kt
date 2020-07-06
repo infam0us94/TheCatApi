@@ -6,5 +6,6 @@ data class Cat (
     val id: String?,
     val url: String?,
     val width: Number?,
-    val height: Number?
+    val height: Number?,
+    var favStatus: String
 )

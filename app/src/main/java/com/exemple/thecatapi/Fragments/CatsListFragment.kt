@@ -34,7 +34,7 @@ class CatsListFragment: Fragment() {
 
     private fun showData(list: List<Cat>?) {
         if (list != null) {
-            val adapter = CatsListAdapter()
+            val adapter = CatsListAdapter(context!!)
             adapter.list = list as MutableList<Cat>
             recyclerView.adapter = adapter
             recyclerView.layoutManager =

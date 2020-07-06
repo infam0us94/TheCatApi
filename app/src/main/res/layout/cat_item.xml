@@ -13,13 +13,14 @@
     app:cardCornerRadius="8dp">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@mipmap/cat" />
 
     <Button
-        android:id="@+id/titleTextView"
+        android:id="@+id/downloadBtn"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_gravity="end"
@@ -39,16 +40,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/ic_favorite_border_red_24dp" />
-
-        <TextView
-            android:id="@+id/likeCountTextView"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="@string/_0"
-            android:textColor="#E90909" />
 
     </LinearLayout>
 
