@@ -2,22 +2,34 @@ package com.exemple.thecatapi.Adapters
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.exemple.thecatapi.Api.Model.Cat
 import com.exemple.thecatapi.FavDB.FavDB
 import com.exemple.thecatapi.R
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 class CatsListAdapter(private val context: Context) :
     RecyclerView.Adapter<CatsListAdapter.ViewHolder>() {
 
     var list: MutableList<Cat> = mutableListOf()
+
     lateinit var favDB: FavDB
+
+    lateinit var outputStream: OutputStream
+    lateinit var drawable: BitmapDrawable
+    lateinit var bitmap: Bitmap
 
     override fun getItemId(position: Int): Long {
         return list[position].id!!.toLong()
@@ -25,8 +37,9 @@ class CatsListAdapter(private val context: Context) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var image: ImageView = itemView.findViewById(R.id.imageView)
+        private var image: ImageView = itemView.findViewById(R.id.imageView)
         var favBtn: Button = itemView.findViewById(R.id.favBtn)
+        var btnDownload: Button = itemView.findViewById(R.id.downloadBtn)
 
 
         fun bind(data: Cat) {
@@ -40,13 +53,32 @@ class CatsListAdapter(private val context: Context) :
                     catItem.favStatus = "1"
                     favDB.insertIntoTheDatabase(
                         catItem.url!!,
-                        catItem.id!!, catItem.favStatus
+                        catItem.id, catItem.favStatus!!
                     )
                     favBtn.setBackgroundResource(R.drawable.ic_favorite_red_24dp)
                 } else {
                     catItem.favStatus = "0"
-                    favDB.remove_fav(catItem.id!!)
+                    favDB.removeFav(catItem.id!!)
                     favBtn.setBackgroundResource(R.drawable.ic_favorite_border_red_24dp)
+                }
+            }
+
+            btnDownload.setOnClickListener {
+                drawable = image.drawable as BitmapDrawable
+                bitmap = drawable.bitmap
+                val filepath = Environment.getExternalStorageDirectory()
+                val dir = File(filepath.absolutePath + "/Downloads")
+                dir.mkdir()
+                val file =
+                    File(dir, System.currentTimeMillis().toString() + ".jpg")
+                try {
+                    outputStream = FileOutputStream(file)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                    Toast.makeText(context, "Image Save", Toast.LENGTH_SHORT).show()
+                    outputStream.flush()
+                    outputStream.close()
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
         }
@@ -84,20 +116,21 @@ class CatsListAdapter(private val context: Context) :
         holder.bind(currentItem)
     }
 
+
     private fun readCursorData(
         catItem: Cat,
         viewHolder: ViewHolder
     ) {
-        val cursor = catItem.id?.let { favDB.read_all_data(it) }
+        val cursor = catItem.id?.let { favDB.readAllData(it) }
         val db = favDB.readableDatabase
         try {
             while (cursor!!.moveToNext()) {
-                val item_fav_status =
+                val itemFavStatus =
                     cursor.getString(cursor.getColumnIndex(favDB.FAVORITE_STATUS))
-                catItem.favStatus = item_fav_status
-                if (item_fav_status != null && item_fav_status == "1") {
+                catItem.favStatus = itemFavStatus
+                if (itemFavStatus != null && itemFavStatus == "1") {
                     viewHolder.favBtn.setBackgroundResource(R.drawable.ic_favorite_red_24dp)
-                } else if (item_fav_status != null && item_fav_status == "0") {
+                } else if (itemFavStatus != null && itemFavStatus == "0") {
                     viewHolder.favBtn
                         .setBackgroundResource(R.drawable.ic_favorite_border_red_24dp)
                 }

@@ -47,7 +47,7 @@ class FavAdapter(private var context: Context, private var favItemList: MutableL
             favBtn.setOnClickListener {
                 val position = adapterPosition
                 val favItem: FavItem = favItemList[position]
-                favDB.remove_fav(favItem.key_id!!)
+                favDB.removeFav(favItem.key_id!!)
                 removeItem(position)
             }
         }

@@ -7,9 +7,10 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
-class FavDB(context: Context?): SQLiteOpenHelper(context, DATABASE_NAME, null, DB_VERSION ){
+class FavDB(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, DB_VERSION) {
 
     var FAVORITE_STATUS = "fStatus"
+
     private val CREATE_TABLE =
         "CREATE TABLE $TABLE_NAME ($KEY_ID TEXT, $ITEM_IMAGE TEXT, $FAVORITE_STATUS TEXT)"
 
@@ -47,21 +48,21 @@ class FavDB(context: Context?): SQLiteOpenHelper(context, DATABASE_NAME, null, D
         db.insert(TABLE_NAME, null, cv)
     }
 
-    fun read_all_data(id: String): Cursor {
+    fun readAllData(id: String): Cursor {
         val db = this.readableDatabase
         val sql =
             "select * from $TABLE_NAME where $KEY_ID=$id"
         return db.rawQuery(sql, null, null)
     }
 
-    fun remove_fav(id: String) {
+    fun removeFav(id: String) {
         val db = this.writableDatabase
         val sql = "UPDATE $TABLE_NAME SET $FAVORITE_STATUS ='0' WHERE $KEY_ID=$id"
         db.execSQL(sql)
         Log.d("remove", id)
     }
 
-    fun select_all_favorite_list(): Cursor {
+    fun selectAllFavoriteList(): Cursor {
         val db = this.readableDatabase
         val sql =
             "SELECT * FROM $TABLE_NAME WHERE $FAVORITE_STATUS ='1'"
@@ -73,8 +74,8 @@ class FavDB(context: Context?): SQLiteOpenHelper(context, DATABASE_NAME, null, D
         private const val DATABASE_NAME = "CatDB"
         private const val TABLE_NAME = "favoriteTable"
 
-        var KEY_ID = "id"
-        var ITEM_IMAGE = "itemImage"
+        const val KEY_ID = "id"
+        const val ITEM_IMAGE = "itemImage"
 
     }
 }

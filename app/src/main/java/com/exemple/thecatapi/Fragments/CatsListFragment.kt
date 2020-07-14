@@ -13,7 +13,7 @@ import com.exemple.thecatapi.Api.Model.Cat
 import com.exemple.thecatapi.R
 import kotlinx.android.synthetic.main.cat_list_fragment.*
 
-class CatsListFragment: Fragment() {
+class CatsListFragment : Fragment() {
 
     private lateinit var viewModel: CatsListViewModel
 
