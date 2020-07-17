@@ -9,12 +9,23 @@ import android.util.Log
 
 class FavDB(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, DB_VERSION) {
 
-    var FAVORITE_STATUS = "fStatus"
 
-    private val CREATE_TABLE =
-        "CREATE TABLE $TABLE_NAME ($KEY_ID TEXT, $ITEM_IMAGE TEXT, $FAVORITE_STATUS TEXT)"
+     val FAVORITE_STATUS = "fStatus"
+
+    companion object {
+        private const val DB_VERSION = 1
+        private const val DATABASE_NAME = "CatDB"
+        private const val TABLE_NAME = "favoriteTable"
+
+        const val KEY_ID = "id"
+        const val ITEM_IMAGE = "itemImage"
+
+    }
+
 
     override fun onCreate(db: SQLiteDatabase) {
+        val CREATE_TABLE =
+            ("CREATE TABLE $TABLE_NAME ($KEY_ID TEXT, $ITEM_IMAGE TEXT, $FAVORITE_STATUS TEXT)")
         db.execSQL(CREATE_TABLE)
     }
 
@@ -23,6 +34,8 @@ class FavDB(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, 
         oldVersion: Int,
         newVersion: Int
     ) {
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        onCreate(db)
     }
 
     fun insertEmpty() {
@@ -51,13 +64,13 @@ class FavDB(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, 
     fun readAllData(id: String): Cursor {
         val db = this.readableDatabase
         val sql =
-            "select * from $TABLE_NAME where $KEY_ID=$id"
+            "SELECT * FROM $TABLE_NAME WHERE $KEY_ID= '?'"
         return db.rawQuery(sql, null, null)
     }
 
     fun removeFav(id: String) {
         val db = this.writableDatabase
-        val sql = "UPDATE $TABLE_NAME SET $FAVORITE_STATUS ='0' WHERE $KEY_ID=$id"
+        val sql = "UPDATE $TABLE_NAME SET $FAVORITE_STATUS ='0' WHERE $KEY_ID= '?'"
         db.execSQL(sql)
         Log.d("remove", id)
     }
@@ -67,15 +80,5 @@ class FavDB(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, 
         val sql =
             "SELECT * FROM $TABLE_NAME WHERE $FAVORITE_STATUS ='1'"
         return db.rawQuery(sql, null, null)
-    }
-
-    companion object {
-        private const val DB_VERSION = 1
-        private const val DATABASE_NAME = "CatDB"
-        private const val TABLE_NAME = "favoriteTable"
-
-        const val KEY_ID = "id"
-        const val ITEM_IMAGE = "itemImage"
-
     }
 }
