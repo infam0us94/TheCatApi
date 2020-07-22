@@ -1,23 +1,20 @@
 package com.exemple.thecatapi.Fragments
 
-import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.exemple.thecatapi.Adapters.FavAdapter
 import com.exemple.thecatapi.Api.Model.FavItem
 import com.exemple.thecatapi.FavDB.FavDB
 import com.exemple.thecatapi.R
-import kotlinx.android.synthetic.main.fav_list_fragment.*
 
 class FavListFragment : Fragment() {
     private val favCatList: MutableList<FavItem> = mutableListOf()
+    private lateinit var recyclerView: RecyclerView
 
     lateinit var favDB: FavDB
 
@@ -29,7 +26,7 @@ class FavListFragment : Fragment() {
         val root: View = inflater.inflate(R.layout.fav_list_fragment, container, false)
 
         favDB = FavDB(context!!)
-        val recyclerView: RecyclerView = root.findViewById(R.id.favRecyclerView)
+        recyclerView = root.findViewById(R.id.favRecyclerView)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
@@ -39,9 +36,11 @@ class FavListFragment : Fragment() {
     }
 
     private fun loadData() {
-        favCatList.clear()
-        val db: SQLiteDatabase = favDB.readableDatabase
-        val cursor: Cursor = favDB.selectAllFavoriteList()
+        if (favCatList != null) {
+            favCatList.clear()
+        }
+        val db = favDB.readableDatabase
+        val cursor = favDB.selectAllFavoriteList()
         try {
             while (cursor.moveToNext()) {
                 val id = cursor.getString(cursor.getColumnIndex(FavDB.COL_ID))
@@ -50,11 +49,29 @@ class FavListFragment : Fragment() {
                 favCatList.add(favItem)
             }
         } finally {
-            if (cursor.isClosed) cursor.close()
+            if (cursor != null && cursor.isClosed)
+                cursor.close()
             db.close()
         }
-        val favAdapter = FavAdapter(FragmentActivity(), favCatList)
+        val favAdapter = FavAdapter(activity!!, favCatList)
+        recyclerView.adapter = favAdapter
 
-        favRecyclerView.adapter = favAdapter
+//        favCatList.clear()
+//        val db: SQLiteDatabase = favDB.readableDatabase
+//        val cursor: Cursor = favDB.selectAllFavoriteList()
+//        try {
+//            while (cursor.moveToNext()) {
+//                val id = cursor.getString(cursor.getColumnIndex(FavDB.COL_ID))
+//                val image = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_IMAGE))
+//                val favItem = FavItem(id, image)
+//                favCatList.add(favItem)
+//            }
+//        } finally {
+//            if (cursor.isClosed) cursor.close()
+//            db.close()
+//        }
+//        val favAdapter = FavAdapter(FragmentActivity(), favCatList)
+//
+//        favRecyclerView.adapter = favAdapter
     }
 }

@@ -40,8 +40,8 @@ class FavAdapter(private var context: Context, private var favItemList: MutableL
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        private var favBtn: Button = itemView.findViewById(R.id.favBtn)
-        var favImage: ImageView = itemView.findViewById(R.id.favImage)
+        private var favBtn: Button = itemView.findViewById(R.id.favBtnData)
+        var favImage: ImageView = itemView.findViewById(R.id.favImageData)
 
         init {
             favBtn.setOnClickListener {
