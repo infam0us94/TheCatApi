@@ -4,26 +4,22 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.exemple.thecatapi.Api.Model.Cat
 import com.exemple.thecatapi.FavDB.FavDB
 import com.exemple.thecatapi.R
-import java.io.File
-import java.io.FileOutputStream
 import java.io.OutputStream
 
-class CatsListAdapter(private val context: Context) :
+class CatsListAdapter(private val context: Context, var list: List<Cat>) :
     RecyclerView.Adapter<CatsListAdapter.ViewHolder>() {
 
-    var list: MutableList<Cat> = mutableListOf()
+//    var list: MutableList<Cat> = mutableListOf()
 
     lateinit var favDB: FavDB
 
@@ -48,13 +44,10 @@ class CatsListAdapter(private val context: Context) :
 
             favBtn.setOnClickListener {
                 val position = adapterPosition
-                val catItem: Cat = list[position]
-                if (catItem.favStatus == "0") {
+                val catItem = list[position]
+                if (catItem.favStatus.equals("0")) {
                     catItem.favStatus = "1"
-                    favDB.insertIntoTheDatabase(
-                        catItem.url!!,
-                        catItem.id, catItem.favStatus!!
-                    )
+                    favDB.insertIntoTheDatabase(catItem.url!!, catItem.id!!, catItem.favStatus!!)
                     favBtn.setBackgroundResource(R.drawable.ic_favorite_red_24dp)
                 } else {
                     catItem.favStatus = "0"
@@ -63,24 +56,24 @@ class CatsListAdapter(private val context: Context) :
                 }
             }
 
-            btnDownload.setOnClickListener {
-                drawable = image.drawable as BitmapDrawable
-                bitmap = drawable.bitmap
-                val filepath = Environment.getExternalStorageDirectory()
-                val dir = File(filepath.absolutePath + "/Downloads")
-                dir.mkdir()
-                val file =
-                    File(dir, System.currentTimeMillis().toString() + ".jpg")
-                try {
-                    outputStream = FileOutputStream(file)
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-                    Toast.makeText(context, "Image Save", Toast.LENGTH_SHORT).show()
-                    outputStream.flush()
-                    outputStream.close()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
+//            btnDownload.setOnClickListener {
+//                drawable = image.drawable as BitmapDrawable
+//                bitmap = drawable.bitmap
+//                val filepath = Environment.getExternalStorageDirectory()
+//                val dir = File(filepath.absolutePath + "/Downloads")
+//                dir.mkdir()
+//                val file =
+//                    File(dir, System.currentTimeMillis().toString() + ".jpg")
+//                try {
+//                    outputStream = FileOutputStream(file)
+//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+//                    Toast.makeText(context, "Image Save", Toast.LENGTH_SHORT).show()
+//                    outputStream.flush()
+//                    outputStream.close()
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//            }
         }
     }
 
@@ -121,22 +114,21 @@ class CatsListAdapter(private val context: Context) :
         catItem: Cat,
         viewHolder: ViewHolder
     ) {
-        val cursor = catItem.id?.let { favDB.readAllData(it) }
+        val cursor = favDB.readAllData(catItem.id!!)
         val db = favDB.readableDatabase
         try {
-            while (cursor!!.moveToNext()) {
-                val itemFavStatus =
-                    cursor.getString(cursor.getColumnIndex(favDB.FAVORITE_STATUS))
+            while (cursor.moveToNext()) {
+                val itemFavStatus = cursor.getString(cursor.getColumnIndex(favDB.FAVORITE_STATUS))
                 catItem.favStatus = itemFavStatus
-                if (itemFavStatus != null && itemFavStatus == "1") {
+                if (itemFavStatus != null && itemFavStatus.equals("1")) {
                     viewHolder.favBtn.setBackgroundResource(R.drawable.ic_favorite_red_24dp)
-                } else if (itemFavStatus != null && itemFavStatus == "0") {
-                    viewHolder.favBtn
-                        .setBackgroundResource(R.drawable.ic_favorite_border_red_24dp)
+                } else if (itemFavStatus != null && itemFavStatus.equals("0")) {
+                    viewHolder.favBtn.setBackgroundResource(R.drawable.ic_favorite_border_red_24dp)
                 }
             }
         } finally {
-            if (cursor != null && cursor.isClosed) cursor.close()
+            if (cursor != null && cursor.isClosed)
+                cursor.close()
             db.close()
         }
     }

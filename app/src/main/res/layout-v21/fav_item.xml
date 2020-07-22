@@ -28,7 +28,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/favBtn"
+            android:id="@+id/favBtnData"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/ic_favorite_red_24dp" />

@@ -28,7 +28,7 @@ class FavListFragment : Fragment() {
     ): View? {
         val root: View = inflater.inflate(R.layout.fav_list_fragment, container, false)
 
-        favDB = FavDB(context)
+        favDB = FavDB(context!!)
         val recyclerView: RecyclerView = root.findViewById(R.id.favRecyclerView)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(activity)
@@ -44,7 +44,7 @@ class FavListFragment : Fragment() {
         val cursor: Cursor = favDB.selectAllFavoriteList()
         try {
             while (cursor.moveToNext()) {
-                val id = cursor.getString(cursor.getColumnIndex(FavDB.KEY_ID))
+                val id = cursor.getString(cursor.getColumnIndex(FavDB.COL_ID))
                 val image = cursor.getString(cursor.getColumnIndex(FavDB.ITEM_IMAGE))
                 val favItem = FavItem(id, image)
                 favCatList.add(favItem)
