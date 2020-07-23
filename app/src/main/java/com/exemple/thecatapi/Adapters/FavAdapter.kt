@@ -58,8 +58,4 @@ class FavAdapter(private var context: Context, private var favItemList: MutableL
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, favItemList.size)
     }
-
-    init {
-        this.favItemList = favItemList
-    }
 }

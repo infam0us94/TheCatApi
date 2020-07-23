@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.exemple.thecatapi.Adapters.FavAdapter
@@ -13,9 +14,10 @@ import com.exemple.thecatapi.FavDB.FavDB
 import com.exemple.thecatapi.R
 
 class FavListFragment : Fragment() {
+
     private val favCatList: MutableList<FavItem> = mutableListOf()
     private lateinit var recyclerView: RecyclerView
-
+    lateinit var favAdapter: FavAdapter
     lateinit var favDB: FavDB
 
     override fun onCreateView(
@@ -29,6 +31,9 @@ class FavListFragment : Fragment() {
         recyclerView = root.findViewById(R.id.favRecyclerView)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(activity)
+
+        val itemTouchHelper = simpleCallback
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
         loadData()
 
@@ -53,7 +58,7 @@ class FavListFragment : Fragment() {
                 cursor.close()
             db.close()
         }
-        val favAdapter = FavAdapter(activity!!, favCatList)
+        favAdapter = FavAdapter(activity!!, favCatList)
         recyclerView.adapter = favAdapter
 
 //        favCatList.clear()
@@ -74,4 +79,27 @@ class FavListFragment : Fragment() {
 //
 //        favRecyclerView.adapter = favAdapter
     }
+
+    private var simpleCallback =
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val favItem = favCatList[position]
+                if (direction == ItemTouchHelper.LEFT) {
+                    favAdapter.notifyItemRemoved(position)
+                    favCatList.removeAt(position)
+                    favDB.removeFav(favItem.key_id!!)
+                }
+            }
+
+        })
+
 }
