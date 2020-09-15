@@ -1,4 +1,4 @@
-package com.exemple.thecatapi.Adapters
+package com.example.thecatapi.Adapters
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -11,9 +11,9 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.exemple.thecatapi.Api.Model.Cat
-import com.exemple.thecatapi.FavDB.FavDB
-import com.exemple.thecatapi.R
+import com.example.thecatapi.Api.Model.Cat
+import com.example.thecatapi.FavDB.FavDB
+import com.example.thecatapi.R
 import java.io.OutputStream
 
 class CatsListAdapter(private val context: Context, var list: List<Cat>) :

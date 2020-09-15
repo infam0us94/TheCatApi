@@ -1,4 +1,4 @@
-package com.exemple.thecatapi
+package com.example.thecatapi
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.exemple.thecatapi.Fragments.CatsListFragment
-import com.exemple.thecatapi.Fragments.FavListFragment
+import com.example.thecatapi.Fragments.CatsListFragment
+import com.example.thecatapi.Fragments.FavListFragment
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {

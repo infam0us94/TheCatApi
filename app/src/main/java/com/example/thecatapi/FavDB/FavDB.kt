@@ -1,4 +1,4 @@
-package com.exemple.thecatapi.FavDB
+package com.example.thecatapi.FavDB
 
 import android.content.ContentValues
 import android.content.Context

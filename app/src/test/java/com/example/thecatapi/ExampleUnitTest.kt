@@ -1,4 +1,4 @@
-package com.exemple.thecatapi
+package com.example.thecatapi
 
 import org.junit.Test
 

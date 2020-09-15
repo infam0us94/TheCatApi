@@ -1,4 +1,4 @@
-package com.exemple.thecatapi.Fragments
+package com.example.thecatapi.Fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.exemple.thecatapi.Adapters.FavAdapter
-import com.exemple.thecatapi.Api.Model.FavItem
-import com.exemple.thecatapi.FavDB.FavDB
-import com.exemple.thecatapi.R
+import com.example.thecatapi.Adapters.FavAdapter
+import com.example.thecatapi.Api.Model.FavItem
+import com.example.thecatapi.FavDB.FavDB
+import com.example.thecatapi.R
 
 class FavListFragment : Fragment() {
 

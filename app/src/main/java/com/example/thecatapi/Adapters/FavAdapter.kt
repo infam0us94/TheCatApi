@@ -1,4 +1,4 @@
-package com.exemple.thecatapi.Adapters
+package com.example.thecatapi.Adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.exemple.thecatapi.Api.Model.FavItem
-import com.exemple.thecatapi.FavDB.FavDB
-import com.exemple.thecatapi.R
+import com.example.thecatapi.Api.Model.FavItem
+import com.example.thecatapi.FavDB.FavDB
+import com.example.thecatapi.R
 
 class FavAdapter(private var context: Context, private var favItemList: MutableList<FavItem>) :
     RecyclerView.Adapter<FavAdapter.ViewHolder>() {

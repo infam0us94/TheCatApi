@@ -1,4 +1,4 @@
-package com.exemple.thecatapi.Fragments
+package com.example.thecatapi.Fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.exemple.thecatapi.Adapters.CatsListAdapter
-import com.exemple.thecatapi.Api.Model.Cat
-import com.exemple.thecatapi.R
+import com.example.thecatapi.Adapters.CatsListAdapter
+import com.example.thecatapi.Api.Model.Cat
+import com.example.thecatapi.R
 import kotlinx.android.synthetic.main.cat_list_fragment.*
 
 class CatsListFragment : Fragment() {

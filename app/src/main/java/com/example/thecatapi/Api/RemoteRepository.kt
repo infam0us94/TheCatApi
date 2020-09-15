@@ -1,6 +1,6 @@
-package com.exemple.thecatapi.Api
+package com.example.thecatapi.Api
 
-import com.exemple.thecatapi.Api.Model.Cat
+import com.example.thecatapi.Api.Model.Cat
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call

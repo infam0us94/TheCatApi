@@ -1,4 +1,4 @@
-package com.exemple.thecatapi.Api.Model
+package com.example.thecatapi.Api.Model
 
 data class FavItem(
     val key_id: String?,

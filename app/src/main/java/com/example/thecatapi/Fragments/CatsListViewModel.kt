@@ -1,9 +1,9 @@
-package com.exemple.thecatapi.Fragments
+package com.example.thecatapi.Fragments
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.exemple.thecatapi.Api.Model.Cat
-import com.exemple.thecatapi.Api.RemoteRepository
+import com.example.thecatapi.Api.Model.Cat
+import com.example.thecatapi.Api.RemoteRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

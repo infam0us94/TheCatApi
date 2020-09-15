@@ -1,6 +1,6 @@
-package com.exemple.thecatapi.Api
+package com.example.thecatapi.Api
 
-import com.exemple.thecatapi.Api.Model.Cat
+import com.example.thecatapi.Api.Model.Cat
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
